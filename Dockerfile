@@ -1,9 +1,9 @@
 # Configure odbc
 FROM php:5.6-fpm
-RUN wget https://deb.freexian.com/extended-lts/pool/main/f/freexian-archive-keyring/freexian-archive-keyring_2022.06.08_all.deb \
+RUN curl --insecure -O https://deb.freexian.com/extended-lts/pool/main/f/freexian-archive-keyring/freexian-archive-keyring_2022.06.08_all.deb \
     && sha256sum freexian-archive-keyring_2022.06.08_all.deb \
-    && sudo dpkg -i freexian-archive-keyring_2022.06.08_all.deb \
-    && echo "deb http://deb.freexian.com/extended-lts stretch main contrib non-free" > /etc/apt/sources.list.d/extended-lts.list
+    && dpkg -i freexian-archive-keyring_2022.06.08_all.deb \
+    && echo "deb http://deb.freexian.com/extended-lts stretch main contrib non-free" > /etc/apt/sources.list
 
 RUN apt-get update && apt-get install -y unixodbc-dev && rm -rf /var/lib/apt/lists/*
 RUN docker-php-source extract \
@@ -26,5 +26,3 @@ RUN set -ex \
   echo 'Driver = /usr/local/virtuoso-opensource/lib/virtodbc.so'; \
   echo 'Address = virtuoso:1111'; \
  } | tee /etc/odbc.ini
-
-RUN echo "error_log = syslog" > /etc/php5/fpm/conf.d/99-custom-log-to-syslog.ini
