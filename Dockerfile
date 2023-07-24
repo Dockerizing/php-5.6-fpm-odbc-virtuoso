@@ -21,3 +21,5 @@ RUN set -ex \
   echo 'Driver = /usr/local/virtuoso-opensource/lib/virtodbc.so'; \
   echo 'Address = virtuoso:1111'; \
  } | tee /etc/odbc.ini
+
+RUN echo "error_log = syslog" > /etc/php5/fpm/conf.d/99-custom-log-to-syslog.ini
