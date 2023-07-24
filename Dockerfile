@@ -1,5 +1,10 @@
 # Configure odbc
 FROM php:5.6-fpm
+RUN wget https://deb.freexian.com/extended-lts/pool/main/f/freexian-archive-keyring/freexian-archive-keyring_2022.06.08_all.deb \
+    && sha256sum freexian-archive-keyring_2022.06.08_all.deb \
+    && sudo dpkg -i freexian-archive-keyring_2022.06.08_all.deb \
+    && echo "deb http://deb.freexian.com/extended-lts stretch main contrib non-free" > /etc/apt/sources.list.d/extended-lts.list
+
 RUN apt-get update && apt-get install -y unixodbc-dev && rm -rf /var/lib/apt/lists/*
 RUN docker-php-source extract \
     && set -x \
